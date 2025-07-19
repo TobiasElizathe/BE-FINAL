@@ -7,7 +7,6 @@ import{
     desactivateJugador,
     activateJugador,
     deleteJugador,   
-    transferJugador,   
     getJugadoresByClub
 } from '../../controllers/jugador';
 
@@ -20,8 +19,7 @@ router.get('/:id', getJugadoresById);
 router.put('/update/:id', updateJugador);
 router.patch('/:id/desactivate', desactivateJugador);
 router.patch('/:id/activate', activateJugador);
-router.delete('/delete/:id', deleteJugador);
-router.put('/:id/transfer', transferJugador);
+router.delete('/delete/:id', deleteJugador);    
 router.get('/club/:clubId', getJugadoresByClub);
 
 

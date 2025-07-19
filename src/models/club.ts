@@ -1,61 +1,38 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { Jugador } from "./jugador";
-
 
 export interface Club extends Document {
-    name: string;
-    location: string;
-    establishedAt?: Date;
-    players: mongoose.Types.ObjectId[];
-    president?: string;
-    stadium?: string;
-    titlesWon?: number;
-    logoUrl?: string;
-    createdAt: Date;
-    updatedAt?: Date;
+  nombre: string;
+  pais: string;
+  fundacion: Date;
+  jugadores: mongoose.Types.ObjectId[];
+  presidente?: string;
+  estadio?: string;
+  titulosGanados?: number;
+  colores?: string[];
+  logoUrl?: string;
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
-const clubSchema = new Schema(
-    {
-        name:{
-            type: String,
-            required: true,
-        },
-        location: {
-            type: String,
-            required: true,
-        },
-        establishedAt: {
-            type: Date,
-            required: true,
-        },
-        players: [{
-            type: mongoose.Types.ObjectId,
-            ref: 'Jugador',
-            default: [],
-        }],
-        president: {
-            type: String,
-            required: false,
-        },
-        stadium: {
-            type: String,
-            required: false,
-        },
-        titlesWon: {
-            type: Number,
-            required: false,
-        },
-        logoUrl: {
-            type: String,
-            required: false,
-        },
-    },
-    {
-        timestamps: true,
-    }
+const ClubSchema = new Schema(
+  {
+    nombre: { type: String, required: true },
+    pais: { type: String, required: true },
+    fundacion: { type: Date, required: true },
+    jugadores: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Jugador",
+        default: [],
+      },
+    ],
+    presidente: { type: String },
+    estadio: { type: String },
+    titulosGanados: { type: Number },
+    colores: [{ type: String }],
+    logoUrl: { type: String },
+  },
+  { timestamps: true }
 );
 
-const Club = mongoose.model<Club>('Club', clubSchema);
-
-export default Club;
+export default mongoose.model<Club>("Club", ClubSchema);
