@@ -1,14 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface Club extends Document {
-  nombre: string;
-  pais: string;
-  fundacion: Date;
-  jugadores: mongoose.Types.ObjectId[];
-  presidente?: string;
-  estadio?: string;
-  titulosGanados?: number;
-  colores?: string[];
+  name: string;
+  location: string;
+  establishedAt?: Date;
+  players: mongoose.Types.ObjectId[];
+  president?: string;
+  stadium?: string;
+  titlesWon?: number;
   logoUrl?: string;
   createdAt: Date;
   updatedAt?: Date;
@@ -16,24 +15,22 @@ export interface Club extends Document {
 
 const ClubSchema = new Schema(
   {
-    nombre: { type: String, required: true },
-    pais: { type: String, required: true },
-    fundacion: { type: Date, required: true },
-    jugadores: [
+    name: { type: String, required: true },
+    location: { type: String, required: true },
+    establishedAt: { type: Date, required: true },
+    players: [
       {
         type: mongoose.Types.ObjectId,
         ref: "Jugador",
         default: [],
       },
     ],
-    presidente: { type: String },
-    estadio: { type: String },
-    titulosGanados: { type: Number },
-    colores: [{ type: String }],
+    president: { type: String },
+    stadium: { type: String },
+    titlesWon: { type: Number },
     logoUrl: { type: String },
   },
   { timestamps: true }
 );
 
 export default mongoose.model<Club>("Club", ClubSchema);
-

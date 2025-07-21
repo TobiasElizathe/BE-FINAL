@@ -1,7 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-
-
 export interface Jugador extends Document {
   nombre: string;
   apellido: string;
