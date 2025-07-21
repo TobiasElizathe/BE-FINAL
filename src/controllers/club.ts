@@ -1,6 +1,6 @@
     import { Request, Response } from "express";
     import Club from "../models/club";
-    import Jugador from "../models/jugador";
+
 
 
     const getClubs = async (req: Request, res: Response) => {

@@ -11,7 +11,7 @@ export interface Club extends Document {
   colores?: string[];
   logoUrl?: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
 }
 
 const ClubSchema = new Schema(
@@ -19,13 +19,6 @@ const ClubSchema = new Schema(
     nombre: { type: String, required: true },
     pais: { type: String, required: true },
     fundacion: { type: Date, required: true },
-    jugadores: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "Jugador",
-        default: [],
-      },
-    ],
     presidente: { type: String },
     estadio: { type: String },
     titulosGanados: { type: Number },
@@ -36,3 +29,4 @@ const ClubSchema = new Schema(
 );
 
 export default mongoose.model<Club>("Club", ClubSchema);
+
