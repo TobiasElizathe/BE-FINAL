@@ -3,7 +3,7 @@ import Club from "../models/club";
 
 const getClubs = async (req: Request, res: Response) => {
   try {
-    const clubs = await Club.find().populate("jugadores");
+    const clubs = await Club.find().populate("players");
     res.status(200).json({
       message: "Clubs fetched successfully",
       data: clubs,
@@ -19,7 +19,7 @@ const getClubs = async (req: Request, res: Response) => {
 const getClubById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const club = await Club.findById(id).populate("jugadores");
+    const club = await Club.findById(id).populate("players");
 
     if (!club) {
       return res.status(404).json({
@@ -125,7 +125,7 @@ const deleteClub = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       error: error.message,
-    });
+    }); 
   }
 };
 
