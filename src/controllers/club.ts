@@ -43,25 +43,43 @@
     };
 
 
-const createClub = async (req: Request, res: Response) => {
-  try {
-    const nuevoClub = new Club(req.body);
-    const clubGuardado = await nuevoClub.save();
-    res.status(201).json(clubGuardado);
-  } catch (error: any) {
-    console.error("Error al crear el club:", error);
 
-    if (error.name === "ValidationError") {
-      return res.status(400).json({
-        mensaje: "Datos inválidos",
-        errores: error.errors, // esto te da detalle de qué campo falló
-      });
+const createClub = async (req: Request, res: Response) => {
+  try {
+
+
+    const nuevoClub = new Club(req.body);
+    const clubGuardado = await nuevoClub.save();
+    res.status(201).json(clubGuardado);
+  } catch (error: any) { // Especificar 'any' para manejar el error como objeto
+    console.error("Error al crear el club:", error);
+
+    // Mejorar el manejo de errores para dar más detalle al frontend
+    if (error.name === "ValidationError") {
+      // Mongoose Validation Error
+      const errors: { [key: string]: string } = {};
+      for (let field in error.errors) {
+        errors[field] = error.errors[field].message;
+      }
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: errors, // Esto envía los mensajes de error de Mongoose
+      });
+    } else if (error.code === 11000) {
+        // MongoServerError para duplicados (ej. si tienes un campo 'unique')
+        return res.status(409).json({
+            message: "Duplicate key error",
+            detail: error.message
+        });
     }
 
-    res.status(500).json({ mensaje: "Error al crear el club" });
-  }
+    // Para otros errores inesperados del servidor
+    res.status(500).json({
+        message: "Internal Server Error",
+        detail: error.message || "Error desconocido al crear el club"
+    });
+  }
 };
-
 
 
     const updateClub = async (req: Request, res: Response) => {

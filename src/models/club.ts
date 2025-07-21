@@ -19,6 +19,13 @@ const ClubSchema = new Schema(
     nombre: { type: String, required: true },
     pais: { type: String, required: true },
     fundacion: { type: Date, required: true },
+    jugadores: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Jugador",
+        default: [],
+      },
+    ],
     presidente: { type: String },
     estadio: { type: String },
     titulosGanados: { type: Number },
