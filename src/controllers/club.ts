@@ -43,16 +43,25 @@
     };
 
 
-    const createClub = async (req: Request, res: Response) => {
-      try {
-        const nuevoClub = new Club(req.body);
-        const clubGuardado = await nuevoClub.save();
-        res.status(201).json(clubGuardado);
-      } catch (error) {
-        console.error("Error al crear el club:", error);
-        res.status(500).json({ mensaje: "Error al crear el club" });
-      }
-    };
+const createClub = async (req: Request, res: Response) => {
+  try {
+    const nuevoClub = new Club(req.body);
+    const clubGuardado = await nuevoClub.save();
+    res.status(201).json(clubGuardado);
+  } catch (error: any) {
+    console.error("Error al crear el club:", error);
+
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        mensaje: "Datos inválidos",
+        errores: error.errors, // esto te da detalle de qué campo falló
+      });
+    }
+
+    res.status(500).json({ mensaje: "Error al crear el club" });
+  }
+};
+
 
 
     const updateClub = async (req: Request, res: Response) => {

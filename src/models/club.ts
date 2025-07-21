@@ -11,7 +11,7 @@ export interface Club extends Document {
   colores?: string[];
   logoUrl?: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date;
 }
 
 const ClubSchema = new Schema(

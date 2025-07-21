@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export type Posicion = "Arquero" | "Defensor" | "Mediocampista" | "Delantero";
+
 
 export interface Jugador extends Document {
   nombre: string;
   apellido: string;
   fechaNacimiento: Date;
-  posicion: Posicion;
+  posicion: string;
   numeroCamiseta: number;
   club: mongoose.Types.ObjectId;
   isActive: boolean;
@@ -19,11 +19,7 @@ const JugadorSchema = new Schema(
     nombre: { type: String, required: true },
     apellido: { type: String, required: true },
     fechaNacimiento: { type: Date, required: true },
-    posicion: {
-      type: String,
-      enum: ["Arquero", "Defensor", "Mediocampista", "Delantero"],
-      required: true,
-    },
+    posicion: { type: String, required: true },
     numeroCamiseta: { type: Number, required: true },
     club: {
       type: mongoose.Schema.Types.ObjectId,
