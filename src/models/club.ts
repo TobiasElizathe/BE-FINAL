@@ -9,6 +9,7 @@ export interface Club extends Document {
   stadium?: string;
   titlesWon?: number;
   logoUrl?: string;
+  isActive?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,6 +30,7 @@ const ClubSchema = new Schema(
     stadium: { type: String },
     titlesWon: { type: Number },
     logoUrl: { type: String },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

@@ -16,6 +16,67 @@ const getClubs = async (req: Request, res: Response) => {
   }
 };
 
+const desactivateClub = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const club = await Club.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true }
+    );
+
+    if (!club) {
+      return res.status(404).json({
+        message: "Club no encontrado",
+        error: true,
+      });
+    }
+
+    res.status(200).json({
+      message: "Club desactivado correctamente",
+      data: club,
+      error: false,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message,
+      error: true,
+    });
+  }
+};
+
+// Activar club
+const activateClub = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const club = await Club.findByIdAndUpdate(
+      id,
+      { isActive: true },
+      { new: true }
+    );
+
+    if (!club) {
+      return res.status(404).json({
+        message: "Club no encontrado",
+        error: true,
+      });
+    }
+
+    res.status(200).json({
+      message: "Club activado correctamente",
+      data: club,
+      error: false,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message,
+      error: true,
+    });
+  }
+};
+
 const getClubById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -129,4 +190,4 @@ const deleteClub = async (req: Request, res: Response) => {
   }
 };
 
-export { getClubs, getClubById, createClub, updateClub, deleteClub };
+export { getClubs, getClubById, createClub, updateClub, deleteClub, desactivateClub, activateClub };

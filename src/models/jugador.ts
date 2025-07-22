@@ -7,6 +7,7 @@ export interface Jugador extends Document {
   posicion: string;
   numeroCamiseta: number;
   club: mongoose.Types.ObjectId;
+  photoUrl: { type: String, required: false }, 
   isActive: boolean;
   createdAt: Date;
   updatedAt?: Date;
@@ -25,6 +26,7 @@ const JugadorSchema = new Schema(
       required: true,
     },
     isActive: { type: Boolean, default: true },
+    photoUrl: { type: String, required: false },
   },
   { timestamps: true }
 );

@@ -5,6 +5,8 @@ import {
   getClubById,
   updateClub,
   deleteClub,
+  desactivateClub,
+  activateClub,
 } from "../../controllers/club";
 
 const router = express.Router();
@@ -14,5 +16,7 @@ router.post("/", createClub);
 router.get("/:id", getClubById);
 router.put("/update/:id", updateClub);
 router.delete("/delete/:id", deleteClub);
+router.patch("/:id/desactivate", desactivateClub);
+router.patch("/:id/activate", activateClub);
 
 export default router;

@@ -2,9 +2,11 @@ import { Request, Response } from "express";
 import Jugador from "../models/jugador";
 
 
+
 const getJugadores = async (req: Request, res: Response) => {
   try {
-    const jugadores = await Jugador.find({})
+    const jugadores = await Jugador.find().populate("club"); // <- populate del club
+
     res.status(200).json({
       message: "Jugadores obtenidos correctamente",
       data: jugadores,
@@ -12,7 +14,9 @@ const getJugadores = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(400).json({
-      error: error.message,
+      message: error.message,
+      data: null,
+      error: true,
     });
   }
 };
@@ -20,7 +24,7 @@ const getJugadores = async (req: Request, res: Response) => {
 const getJugadoresById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const jugador = await Jugador.findById(id)
+    const jugador = await Jugador.findById(id).populate("club"); // <- populate del club
 
     if (!jugador) {
       return res.status(404).json({
@@ -110,34 +114,7 @@ const deleteJugador = async (req: Request, res: Response) => {
   }
 };
 
-const desactivateJugador = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const jugador = await Jugador.findByIdAndUpdate(
-      id,
-      {  isActive: false  }, // <-- acá isActive
-      { new: true }
-    );
 
-    if (!jugador) {
-      return res.status(404).json({
-        message: "Jugador no encontrado",
-        error: true,
-      });
-    }
-
-    res.status(200).json({
-      message: "Jugador desactivado correctamente",
-      data: jugador,
-      error: false,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-      error: true,
-    });
-  }
-};
 
 
 const getJugadoresByClub = async (req: Request, res: Response) => {
@@ -157,34 +134,6 @@ const getJugadoresByClub = async (req: Request, res: Response) => {
 };
 
 
-const activateJugador = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const jugador = await Jugador.findByIdAndUpdate(
-      id,
-      { isActive: true }, // <-- acá isActive
-      { new: true }
-    );
-
-    if (!jugador) {
-      return res.status(404).json({
-        message: "Jugador no encontrado",
-        error: true,
-      });
-    }
-
-    res.status(200).json({
-      message: "Jugador activado correctamente",
-      data: jugador,
-      error: false,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-      error: true,
-    });
-  }
-};
 
 
 
@@ -194,7 +143,5 @@ export {
   createJugador,
   updateJugador,
   deleteJugador,
-  desactivateJugador,
-  activateJugador,
-getJugadoresByClub,
+  getJugadoresByClub,
 };
