@@ -7,12 +7,14 @@ import {
   deleteClub,
   desactivateClub,
   activateClub,
+  getActiveClubs,
 } from "../../controllers/club";
 
 const router = express.Router();
 
 router.get("/", getClubs);
 router.post("/", createClub);
+router.get("/active", getActiveClubs);
 router.get("/:id", getClubById);
 router.put("/update/:id", updateClub);
 router.delete("/delete/:id", deleteClub);

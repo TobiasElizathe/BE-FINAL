@@ -3,23 +3,23 @@ import Jugador from "../models/jugador";
 
 
 
-const getJugadores = async (req: Request, res: Response) => {
-  try {
-    const jugadores = await Jugador.find().populate("club"); // <- populate del club
+  const getJugadores = async (req: Request, res: Response) => {
+    try {
+      const jugadores = await Jugador.find().populate("club"); // <- populate del club
 
-    res.status(200).json({
-      message: "Jugadores obtenidos correctamente",
-      data: jugadores,
-      error: false,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-      data: null,
-      error: true,
-    });
-  }
-};
+      res.status(200).json({
+        message: "Jugadores obtenidos correctamente",
+        data: jugadores,
+        error: false,
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        message: error.message,
+        data: null,
+        error: true,
+      });
+    }
+  };
 
 const getJugadoresById = async (req: Request, res: Response) => {
   try {

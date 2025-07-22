@@ -1,11 +1,39 @@
 import { Request, Response } from "express";
 import Club from "../models/club";
+import Jugador from "../models/jugador";
 
 const getClubs = async (req: Request, res: Response) => {
   try {
-    const clubs = await Club.find().populate("players");
+    const clubs = await Club.find();
+    
+    // Para cada club, buscamos jugadores con club = club._id
+    const clubsWithPlayers = await Promise.all(
+      clubs.map(async (club) => {
+        const players = await Jugador.find({ club: club._id, isActive: true });
+        return {
+          ...club.toObject(),
+          players,
+        };
+      })
+    );
+
     res.status(200).json({
       message: "Clubs fetched successfully",
+      data: clubsWithPlayers,
+      error: false,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
+const getActiveClubs = async (req: Request, res: Response) => {
+  try {
+    const clubs = await Club.find({ isActive: true });  // Solo activos
+    res.status(200).json({
+      message: "Clubs activos obtenidos",
       data: clubs,
       error: false,
     });
@@ -190,4 +218,4 @@ const deleteClub = async (req: Request, res: Response) => {
   }
 };
 
-export { getClubs, getClubById, createClub, updateClub, deleteClub, desactivateClub, activateClub };
+export { getClubs, getClubById, createClub, updateClub, deleteClub, desactivateClub, activateClub,getActiveClubs };
