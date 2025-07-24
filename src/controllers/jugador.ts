@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Jugador from "../models/jugador";
 
 
-
+//con el club "populate" para incluir datos del club en la respuesta
   const getJugadores = async (req: Request, res: Response) => {
     try {
       const jugadores = await Jugador.find().populate("club"); // <- populate del club
@@ -116,11 +116,11 @@ const deleteJugador = async (req: Request, res: Response) => {
 
 
 
-
+// Obtener todos los jugadores que pertenecen a un club específico, con nombre de club populado
 const getJugadoresByClub = async (req: Request, res: Response) => {
     try {
         const { clubId } = req.params;
-
+      // Filtra jugadores por clubId y popula solo el campo 'name' del club
         const jugadores = await Jugador.find({ club: clubId }).populate('club', 'name');
 
         if (jugadores.length === 0) {
